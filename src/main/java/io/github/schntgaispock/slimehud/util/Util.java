@@ -9,7 +9,7 @@ import io.github.schntgaispock.slimehud.SlimeHUD;
 public class Util {
     
     public static BarColor pickBarColorFromName(String name) {
-        char colorCode = name.toLowerCase().matches("^[&|§][0-9a-f]") ? name.charAt(1) : ' ';
+        char colorCode = name.trim().toLowerCase().startsWith("§") ? name.charAt(1) : ' ';
         switch (colorCode) {
             case '4':
             case 'c':
@@ -23,13 +23,13 @@ public class Util {
             case 'a':
                 return BarColor.GREEN;
 
-            case '1':
             case '3':
-            case '9':
             case 'b':
                 return BarColor.BLUE;
 
+            case '1':
             case '5':
+            case '9':
                 return BarColor.PURPLE;
         
             case 'd':
@@ -51,6 +51,9 @@ public class Util {
             case "pink":
             case "white":
                 return BarColor.valueOf(color.toUpperCase());
+
+            case "default":
+                return BarColor.WHITE;
         
             default:
                 SlimeHUD.log(Level.WARNING, "[WAILA HUD] Invalid bossbar color: " + color, "[WAILA HUD] Setting color to white...");

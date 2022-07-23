@@ -16,7 +16,7 @@ public class SlimeHUDTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> hints = new ArrayList<>();
         
-        if (command.getName().equals("slimehud") && args.length == 0) {
+        if (args.length == 1) {
             hints.add("toggle");
             return hints;
         }

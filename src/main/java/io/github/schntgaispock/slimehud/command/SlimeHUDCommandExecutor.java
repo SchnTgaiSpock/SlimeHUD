@@ -16,13 +16,15 @@ public class SlimeHUDCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
-            String uuid = ((Player) sender).getUniqueId().toString();
+            Player player = (Player) sender;
+            String uuid = player.getUniqueId().toString();
 
             // May add more to the command in the future
             switch (args[0]) {
                 case "toggle":
-                    boolean waimaOn = SlimeHUD.getInstance().getPlayerData().getBoolean(uuid + ".waima", true);
-                    SlimeHUD.getInstance().getPlayerData().set(uuid + ".waima", !waimaOn);
+                    boolean wailaOn = SlimeHUD.getInstance().getPlayerData().getBoolean(uuid + ".waila", true);
+                    SlimeHUD.getInstance().getPlayerData().set(uuid + ".waila", !wailaOn);
+                    SlimeHUD.getInstance().getPlayerData().save();
                     return true;
             
                 default:

@@ -7,6 +7,8 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.NamespacedKey;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.github.mooy1.infinitylib.core.AbstractAddon;
 import io.github.mooy1.infinitylib.core.AddonConfig;
 import io.github.schntgaispock.slimehud.command.CommandManager;
@@ -17,6 +19,7 @@ public class SlimeHUD extends AbstractAddon {
 
     @Getter AddonConfig playerData;
     static SlimeHUD instance;
+    @Getter ObjectMapper jsonMapper;
 
     public SlimeHUD() {
         super("SchnTgaiSpock", "SlimeHUD", "master", "options.auto-update");
@@ -48,6 +51,7 @@ public class SlimeHUD extends AbstractAddon {
         );
 
         playerData = new AddonConfig("player.yml");
+        jsonMapper = new ObjectMapper();
 
         WAILAManager.setup();
         CommandManager.setup();

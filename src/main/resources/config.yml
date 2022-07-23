@@ -15,12 +15,15 @@ waila:
   # Can be 'bossbar' or 'hotbar'.
   # Title/subtitle is way too intrusive, scoreboard is way too difficult
   # to implement, and chat cannot be erased, so too spammy
-  location: 'bossbar'
+  location: bossbar
+
+  # Whether or not to keep colors and format of the text. If set to false, defaults to white.
+  use-original-colors: true
 
   # The color of the bossbar. Must be a valid color in 'snake_case'.
-  # 'inherit' means 'match the color of the bossbar to that of the text'
+  # 'inherit' means 'match the color of the bossbar to that of the text'.
   # 'default' is white
-  bossbar-color: 'default'
+  bossbar-color: inherit
 
   # Rate at which WAILA updates, in *game* ticks
-  tick-rate: 5
+  tick-rate: 20

@@ -20,10 +20,10 @@ commands:
     description: /slimehud
     aliases: [sfhud, sfh]
     usage: Press [tab] for usage hints
-    permission: slimehud.togglewaima
-    permission-message: You don't have permission to toggle your WAIMA HUD!
+    permission: slimehud.togglewaila
+    permission-message: You don't have permission to toggle your WAILA HUD!
 
 permissions:
-  slimehud.togglewaima:
-    description: Able to toggle the WAIMA HUD
+  slimehud.togglewaila:
+    description: Able to toggle the WAILA HUD
     default: true
