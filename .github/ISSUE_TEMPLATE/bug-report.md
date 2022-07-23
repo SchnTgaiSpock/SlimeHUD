@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a Bug or an Issue with Wildernether.
+about: Report a Bug or an Issue with SlimeHUD.
 title: ''
 labels: bug
 assignees: ''
