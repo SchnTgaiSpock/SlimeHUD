@@ -1,0 +1,26 @@
+options:
+
+  auto-update: true
+
+
+waila:
+
+  # If set to true, will disable waila for all players,
+  # overriding individual preferences and 'disabled-in'
+  disabled: false
+
+  # List of worlds that the WAILA is disabled in
+  disabled-in: []
+
+  # Can be 'bossbar' or 'hotbar'.
+  # Title/subtitle is way too intrusive, scoreboard is way too difficult
+  # to implement, and chat cannot be erased, so too spammy
+  location: 'bossbar'
+
+  # The color of the bossbar. Must be a valid color in 'snake_case'.
+  # 'inherit' means 'match the color of the bossbar to that of the text'
+  # 'default' is white
+  bossbar-color: 'default'
+
+  # Rate at which WAILA updates, in *game* ticks
+  tick-rate: 5

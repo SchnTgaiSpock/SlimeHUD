@@ -1,0 +1,29 @@
+name: SlimeHUD
+
+author: SchnTgaiSpock
+
+description: A utility addon that adds a toggleable WAILA (What Am I Looking At) HUD for placed Slimefun items.
+
+main: io.github.schntgaispock.slimehud.SlimeHUD
+
+website: https://github.com/SchnTgaiSpock/SlimeHUD
+
+version: ${project.version}
+
+api-version: 1.14
+
+depend:
+- Slimefun
+
+commands:
+  slimehud:
+    description: /slimehud
+    aliases: [sfhud, sfh]
+    usage: Press [tab] for usage hints
+    permission: slimehud.togglewaima
+    permission-message: You don't have permission to toggle your WAIMA HUD!
+
+permissions:
+  slimehud.togglewaima:
+    description: Able to toggle the WAIMA HUD
+    default: true
