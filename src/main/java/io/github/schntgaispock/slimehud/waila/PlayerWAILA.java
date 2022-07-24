@@ -1,8 +1,5 @@
 package io.github.schntgaispock.slimehud.waila;
 
-import java.lang.reflect.Field;
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,15 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.Util;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoConnectorNode;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import net.md_5.bungee.api.ChatMessageType;
@@ -72,87 +60,11 @@ public class PlayerWAILA extends BukkitRunnable {
             return "";
         }
 
-        StringBuffer name = new StringBuffer(item.getItemName());
-        if ( // Is an Energy Regulator or Energy Connector
-            (item instanceof EnergyRegulator ||
-            item instanceof EnergyConnector) && 
-            SlimeHUD.getInstance().getConfig().getBoolean("waila.show-energy-size")
-        ) {
-            Network en = EnergyNet.getNetworkFromLocation(target);
+        HudRequest request = new HudRequest(item, target);
+        String name = item.getItemName() + " ";
+        String additionalString = SlimeHUD.getHudController().processRequest(item, request);
 
-            if (en != null) {
-                try {
-                    Field con = Network.class.getDeclaredField("connectorNodes");
-                    Field ter = Network.class.getDeclaredField("terminusNodes");
-
-                    con.setAccessible(true);
-                    ter.setAccessible(true);
-
-                    name.append(" §7| Network Size: ").append(
-                        ((Set<?>) con.get(en)).size() +
-                        ((Set<?>) ter.get(en)).size() + 1
-                    );
-
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } else if ( // Is a Generator, Capacitor, or Machine
-            item instanceof EnergyNetComponent &&
-            SlimeHUD.getInstance().getConfig().getBoolean("waila.show-energy-stored")
-        ) {
-            EnergyNetComponent enc = (EnergyNetComponent) item;
-            switch (enc.getEnergyComponentType()) {
-                case CAPACITOR:
-                case GENERATOR:
-                case CONSUMER:
-                    if (enc.getCapacity() <= 0) break;
-                    name.append(" §7| ").append(enc.getCharge(target)).append("J Stored");
-                    break;
-            
-                default:
-                    break;
-            }
-        } else if ( // Is a Cargo Input/Output/Advanced Output Node
-            item instanceof CargoNode &&
-            SlimeHUD.getInstance().getConfig().getBoolean("waila.show-cargo-channel")
-        ) {
-            CargoNode cn = (CargoNode) item;
-            int channel = cn.getSelectedChannel(targetBlock) + 1;
-            name.append(" §7| Channel: ").append(Util.getColorFromCargoChannel(channel).toString()).append(channel);
-        } else if ( // Is a Cargo Connector Node or Cargo Manager
-            (item instanceof CargoConnectorNode ||
-            item instanceof CargoManager) &&
-            SlimeHUD.getInstance().getConfig().getBoolean("waila.show-cargo-size")
-        ) {
-            Network en = CargoNet.getNetworkFromLocation(target);
-
-            if (en != null) {            
-                try {
-                    Field con = Network.class.getDeclaredField("connectorNodes");
-                    Field ter = Network.class.getDeclaredField("terminusNodes");
-
-                    con.setAccessible(true);
-                    ter.setAccessible(true);
-
-                    name.append(" §7| Network Size: ").append(
-                        ((Set<?>) con.get(en)).size() +
-                        ((Set<?>) ter.get(en)).size() + 1
-                    );
-
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        
-        return name.toString();
+        return name + additionalString;
     }
 
     @Override
@@ -163,7 +75,7 @@ public class PlayerWAILA extends BukkitRunnable {
         }
 
         String facing = getFacing();
-        if (facing == previousFacing) {
+        if (facing.equals(previousFacing)) {
             return; // Nothing changed, skip for now
         }
 
@@ -189,7 +101,7 @@ public class PlayerWAILA extends BukkitRunnable {
             
             case "hotbar":
                 getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(facing));
-        
+                break;
             default:
                 break;
         }

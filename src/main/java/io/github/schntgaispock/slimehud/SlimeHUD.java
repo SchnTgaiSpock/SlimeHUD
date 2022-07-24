@@ -3,6 +3,7 @@ package io.github.schntgaispock.slimehud;
 
 import javax.annotation.Nonnull;
 
+import io.github.schntgaispock.slimehud.waila.HudController;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.NamespacedKey;
@@ -17,6 +18,8 @@ public class SlimeHUD extends AbstractAddon {
 
     @Getter AddonConfig playerData;
     static SlimeHUD instance;
+
+    private HudController hudController;
 
     public SlimeHUD() {
         super("SchnTgaiSpock", "SlimeHUD", "master", "options.auto-update");
@@ -51,6 +54,7 @@ public class SlimeHUD extends AbstractAddon {
 
         WAILAManager.setup();
         CommandManager.setup();
+        hudController = new HudController();
     }
 
     @Override
@@ -58,6 +62,10 @@ public class SlimeHUD extends AbstractAddon {
         instance = null;
         getPlayerData().save();
         getConfig().save();
+    }
+
+    public static HudController getHudController() {
+        return instance.hudController;
     }
 
     public static NamespacedKey newNamespacedKey(@Nonnull String name) {
