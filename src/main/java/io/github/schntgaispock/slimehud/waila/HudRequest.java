@@ -1,26 +1,17 @@
 package io.github.schntgaispock.slimehud.waila;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 
+@AllArgsConstructor
+@Getter
 public class HudRequest {
     private final SlimefunItem slimefunItem;
     private final Location location;
-
-    @ParametersAreNonnullByDefault
-    public HudRequest(SlimefunItem slimefunItem, Location location) {
-        this.slimefunItem = slimefunItem;
-        this.location = location;
-    }
-
-    public SlimefunItem getSlimefunItem() {
-        return slimefunItem;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
+    private final Player player;
 }

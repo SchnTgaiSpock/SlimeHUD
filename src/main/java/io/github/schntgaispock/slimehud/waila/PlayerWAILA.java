@@ -47,6 +47,8 @@ public class PlayerWAILA extends BukkitRunnable {
 
     /**
      * Returns an empty string if not a Slimefun item. Otherwise returns the formatted item name
+     * 
+     * @return Formatted item name or empty string
      */
     public String getFacing() {
         Block targetBlock = player.getTargetBlockExact(5);
@@ -60,13 +62,16 @@ public class PlayerWAILA extends BukkitRunnable {
             return "";
         }
 
-        HudRequest request = new HudRequest(item, target);
+        HudRequest request = new HudRequest(item, target, player);
         String name = item.getItemName() + " ";
-        String additionalString = SlimeHUD.getHudController().processRequest(item, request);
+        String additionalString = SlimeHUD.getHudController().processRequest(request);
 
-        return name + additionalString;
+        return name + ChatColor.translateAlternateColorCodes('&', additionalString);
     }
 
+    /**
+     * Called every `waila.tick-rate` ticks
+     */
     @Override
     public void run() {
         if (!SlimeHUD.getInstance().getPlayerData().getBoolean(player.getUniqueId().toString() + ".waila", true)) {

@@ -23,13 +23,23 @@ waila:
   # 'default' is white
   bossbar-color: inherit
 
-  # cargo/energy-size is the size of the network,
-  # cargo-channel only applies to input/output nodes, and energy-stored
-  # only applies to machines with an energy buffer
+  # How many nodes on the cargo network; shown on connectors and managers
   show-cargo-size: true
+
+  # Shown on output and input nodes
   show-cargo-channel: true
+
+  # How many nodes on the energy network; shown on connectors and regulators
   show-energy-size: true
+
+  # Shown on capacitors
   show-energy-stored: true
+
+  # Shown on most machines
+  show-machine-progress: true
+
+  # Shown on most generators
+  show-generator-generation: true
 
   # Rate at which WAILA updates, in *game* ticks
   tick-rate: 10

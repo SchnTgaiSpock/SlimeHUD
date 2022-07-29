@@ -10,12 +10,16 @@ Adds a WAILA (What Am I Looking At) HUD for Slimefun items. Lets you see what Sl
 
 ### Hotbar version
 
-https://user-images.githubusercontent.com/101147426/180625211-cbcfd01d-d418-4e6c-a8ab-55d938d7840e.mp4
+<https://user-images.githubusercontent.com/101147426/180625211-cbcfd01d-d418-4e6c-a8ab-55d938d7840e.mp4>
 
 ## Limitations
 
 - Minecraft only has 7 colors for the bossbar, compared to 16 for regular items.
 - Does not work with hex color codes (defaults to white).
+
+## API
+
+API documentation can be found [here](https://github.com/SchnTgaiSpock/SlimeHUD/wiki/API-Usage) on the wiki.
 
 ## Requirements
 
@@ -23,6 +27,8 @@ https://user-images.githubusercontent.com/101147426/180625211-cbcfd01d-d418-4e6c
 - Slimefun, of course
 
 ## Credits
+
+Big thanks to Sefiraat for designing and creating the API!
 
 *InfinityLib* by Mooy1\
 *Lombok* by Project Lombok

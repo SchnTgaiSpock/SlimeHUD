@@ -17,16 +17,11 @@ import lombok.Getter;
 public class SlimeHUD extends AbstractAddon {
 
     @Getter AddonConfig playerData;
-    static SlimeHUD instance;
-
+    static @Getter SlimeHUD instance;
     private HudController hudController;
 
     public SlimeHUD() {
         super("SchnTgaiSpock", "SlimeHUD", "master", "options.auto-update");
-    }
-
-    public static SlimeHUD getInstance() {
-        return instance;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class SlimeHUD extends AbstractAddon {
 
         getLogger().info("#=================================#");
         getLogger().info("#    SlimeHUD by SchnTgaiSpock    #");
-        getLogger().info("#          Version: 1.0.0         #");
+        getLogger().info("#          Version: 1.2.0         #");
         getLogger().info("#=================================#");
 
         Metrics metrics = new Metrics(this, 15883);
