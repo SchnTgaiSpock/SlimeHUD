@@ -1,16 +1,12 @@
 # SlimeHUD
 
-Adds a WAILA (What Am I Looking At) HUD for Slimefun items. Lets you see what Slimefun item a block is without breaking or opening its menu. Can be set to display in the bossbar or above the hotbar in `config.yml`. Additional energy/cargo information can also be toggled on or off in `config.yml`. Individual players can also toggle their WAILA HUD with `/slimehud toggle`.
+Adds a WAILA (What Am I Looking At) HUD for Slimefun items. Can be set to display in the bossbar or above the hotbar in `config.yml`. Additional energy/cargo information can also be toggled on or off in `config.yml`. Individual players can also toggle their WAILA HUD with `/slimehud toggle`.
+
+The HUD lets you see what Slimefun item a block is without breaking or opening its menu. It also displays additional information depending on the block, such as network size, cargo channel, and energy generation. See the [wiki](https://github.com/SchnTgaiSpock/SlimeHUD/wiki) for more details.
 
 ## Preview
 
-### Bossbar version
-
-<https://user-images.githubusercontent.com/101147426/180625208-4713a843-e856-475e-ba83-95b5a61786f8.mp4>
-
-### Hotbar version
-
-<https://user-images.githubusercontent.com/101147426/180625211-cbcfd01d-d418-4e6c-a8ab-55d938d7840e.mp4>
+<https://user-images.githubusercontent.com/101147426/182007545-474a6596-b4e2-4a92-bdab-c18ed2286a94.mp4>
 
 ## Limitations
 
@@ -30,5 +26,5 @@ API documentation can be found [here](https://github.com/SchnTgaiSpock/SlimeHUD/
 
 Big thanks to Sefiraat for designing and creating the API!
 
-*InfinityLib* by Mooy1\
+*InfinityLib* by Mooy1  
 *Lombok* by Project Lombok

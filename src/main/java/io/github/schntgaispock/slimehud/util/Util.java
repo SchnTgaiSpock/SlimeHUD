@@ -6,7 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 
 import io.github.schntgaispock.slimehud.SlimeHUD;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Util {
     
     public static BarColor pickBarColorFromName(String name) {
@@ -89,6 +91,5 @@ public class Util {
                 return ChatColor.WHITE;
         }
     }
-
 
 }

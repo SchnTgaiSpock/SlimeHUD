@@ -1,6 +1,7 @@
 package io.github.schntgaispock.slimehud.waila;
 
 import io.github.schntgaispock.slimehud.SlimeHUD;
+import io.github.schntgaispock.slimehud.util.HudBuilder;
 import io.github.schntgaispock.slimehud.util.Util;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
@@ -9,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoConnectorNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
@@ -21,7 +23,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -29,13 +30,15 @@ import java.util.function.Function;
 
 public class HudController {
 
-    // Preserve insertion order; chances are, a MachineProcessHolder is also an EnergyNetComponent
+    // LinkedHashMaps preserve insertion order. Chances are, a MachineProcessHolder
+    // is also an EnergyNetComponent, but the machine info should take priority over
+    // energy info.
     private final Map<Class<?>, Function<HudRequest, String>> defaultHandlers = new LinkedHashMap<>();
-    private final Map<Class<?>, Function<HudRequest, String>> customHandlers = new HashMap<>();
+    private final Map<Class<?>, Function<HudRequest, String>> customHandlers = new LinkedHashMap<>();
 
     public HudController() {
         // Set up Slimefun default items
-        
+
         // Machines
         registerDefaultHandler(MachineProcessHolder.class, this::processMachine);
 
@@ -61,24 +64,8 @@ public class HudController {
         }
 
         Network en = EnergyNet.getNetworkFromLocation(request.getLocation());
-
-        if (en != null) {
-            try {
-                Field con = Network.class.getDeclaredField("connectorNodes");
-                Field ter = Network.class.getDeclaredField("terminusNodes");
-
-                con.setAccessible(true);
-                ter.setAccessible(true);
-                int conSize = ((Set<?>) con.get(en)).size();
-                int terSize = ((Set<?>) ter.get(en)).size();
-                con.setAccessible(false);
-                ter.setAccessible(false);
-                return "&7| Network Size: " + (conSize + terSize + 1);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return "";
+        int size = getNetworkSize(en);
+        return size < 0 ? "" : "&7| Network Size: " + HudBuilder.getCommaNumber(size);
     }
 
     @Nonnull
@@ -88,14 +75,12 @@ public class HudController {
         }
 
         EnergyNetComponent enc = (EnergyNetComponent) request.getSlimefunItem();
-        switch (enc.getEnergyComponentType()) {
-            case CAPACITOR, GENERATOR, CONSUMER:
-                if (enc.getCapacity() > 0) {
-                    return "&7| " + enc.getCharge(request.getLocation()) + " J Stored";
-                }
-                break;
-            default:
-                break;
+        EnergyNetComponentType enct = enc.getEnergyComponentType();
+        if ((enct == EnergyNetComponentType.CAPACITOR ||
+                enct == EnergyNetComponentType.GENERATOR ||
+                enct == EnergyNetComponentType.CONSUMER) &&
+                enc.getCapacity() > 0) {
+            return HudBuilder.formatEnergyStored(enc.getCharge(request.getLocation()));
         }
         return "";
     }
@@ -117,39 +102,7 @@ public class HudController {
 
         int progress = operation.getProgress();
         int total = operation.getTotalTicks();
-        int percentCompleted = 100 * progress / total;
-
-        // 11 bars total
-        StringBuffer progressBar = new StringBuffer();
-        if (percentCompleted > 0) {
-            char color = '2';
-            if (percentCompleted < 15) {
-                color = '4';
-            } else if (percentCompleted < 30) {
-                color = 'c';
-            } else if (percentCompleted < 45) {
-                color = '6';
-            } else if (percentCompleted < 60) {
-                color = 'e';
-            } else if (percentCompleted < 75) {
-                color = 'a';
-            }
-            // Question'nt the magic numbers
-            int split = (percentCompleted + 4) / 10;
-            progressBar.append("&").append(color);
-            for (int i = 0; i < split + 1; i++) {
-                progressBar.append("|");
-            }
-            progressBar.append("&7");
-            for (int i = 0; i < 10 - split; i++) {
-                progressBar.append("|");
-            }
-
-        } else {
-            progressBar.append("|||||||||||");
-        }
-
-        return "&7| " + progressBar + " - " + percentCompleted + "%";
+        return HudBuilder.formatProgressBar(progress, total);
     }
 
     @Nonnull
@@ -161,7 +114,7 @@ public class HudController {
         AGenerator gen = (AGenerator) request.getSlimefunItem();
         int generation = gen.getEnergyProduction();
         if (generation > 0) {
-            return "&7| Generating " + generation + " J/t";
+            return HudBuilder.formatEnergyGenerated(generation);
         } else {
             return "&7| Not generating";
         }
@@ -174,9 +127,10 @@ public class HudController {
         }
 
         SolarGenerator gen = (SolarGenerator) request.getSlimefunItem();
+        // Solar Generators dont use any fuel, so it's ok to call getGeneratedOutput
         int generation = gen.getGeneratedOutput(request.getLocation(), null);
         if (generation > 0) {
-            return "&7| Generating " + generation + " J/t";
+            return HudBuilder.formatEnergyGenerated(generation);
         } else {
             return "&7| Not generating";
         }
@@ -197,9 +151,14 @@ public class HudController {
         if (!SlimeHUD.getInstance().getConfig().getBoolean("waila.show-cargo-size")) {
             return "";
         }
-        Network en = CargoNet.getNetworkFromLocation(request.getLocation());
+        Network cn = CargoNet.getNetworkFromLocation(request.getLocation());
 
-        if (en != null) {
+        int size = getNetworkSize(cn);
+        return size < 0 ? "" : "&7| Network Size: " + HudBuilder.getCommaNumber(size);
+    }
+
+    private int getNetworkSize(Network network) {
+        if (network != null) {
             try {
                 Field con = Network.class.getDeclaredField("connectorNodes");
                 Field ter = Network.class.getDeclaredField("terminusNodes");
@@ -207,17 +166,17 @@ public class HudController {
                 con.setAccessible(true);
                 ter.setAccessible(true);
 
-                int conSize = ((Set<?>) con.get(en)).size();
-                int terSize = ((Set<?>) ter.get(en)).size();
+                int conSize = ((Set<?>) con.get(network)).size();
+                int terSize = ((Set<?>) ter.get(network)).size();
 
                 con.setAccessible(false);
                 ter.setAccessible(false);
-                return "&7| Network Size: " + (conSize + terSize + 1);
+                return conSize + terSize + 1;
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
-        return "";
+        return -1;
     }
 
     @Nullable
@@ -253,6 +212,13 @@ public class HudController {
         defaultHandlers.put(clazz, handler);
     }
 
+    /**
+     * Register a custom handler for when a player looks at a Slimefun Item
+     * 
+     * @param clazz   The class extending {@code SlimefunItem}
+     * @param handler A function that takes a {@code HudRequest} and returns
+     *                formatted text to be displayed on the WAILA HUD
+     */
     @ParametersAreNonnullByDefault
     public void registerCustomHandler(Class<?> clazz, Function<HudRequest, String> handler) {
         customHandlers.put(clazz, handler);
