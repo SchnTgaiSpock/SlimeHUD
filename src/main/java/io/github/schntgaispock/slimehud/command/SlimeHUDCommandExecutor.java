@@ -19,12 +19,18 @@ public class SlimeHUDCommandExecutor implements CommandExecutor {
             Player player = (Player) sender;
             String uuid = player.getUniqueId().toString();
 
+            if (args.length == 0) {
+                sendInfo(player);
+                return true;
+            }
+
             // May add more to the command in the future
             switch (args[0]) {
                 case "toggle":
                     boolean wailaOn = SlimeHUD.getInstance().getPlayerData().getBoolean(uuid + ".waila", true);
                     SlimeHUD.getInstance().getPlayerData().set(uuid + ".waila", !wailaOn);
                     SlimeHUD.getInstance().getPlayerData().save();
+                    player.sendMessage("§a§lSlimeHUD§7> HUD toggled " + (wailaOn ? "§coff" : "§aon"));
                     return true;
             
                 default:
@@ -33,6 +39,17 @@ public class SlimeHUDCommandExecutor implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private void sendInfo(Player player) {
+        player.sendMessage(
+            "",
+            "§a§lSlimeHUD §7- §2Version " + SlimeHUD.getInstance().getPluginVersion(),
+            "§7------",
+            "§a§lWiki §7- §2https://github.com/SchnTgaiSpock/SlimeHUD/wiki",
+            "§a§lIssues §7- §2https://github.com/SchnTgaiSpock/SlimeHUD/issues",
+            ""
+        );
     }
     
 }

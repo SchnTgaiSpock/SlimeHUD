@@ -30,7 +30,6 @@ public class SlimeHUD extends AbstractAddon {
 
         getLogger().info("#=================================#");
         getLogger().info("#    SlimeHUD by SchnTgaiSpock    #");
-        getLogger().info("#          Version: 1.2.0         #");
         getLogger().info("#=================================#");
 
         Metrics metrics = new Metrics(this, 15883);
