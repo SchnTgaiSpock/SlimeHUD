@@ -40,6 +40,7 @@ public class HudBuilder {
      * @return The formatted progress bar
      */
     public static String getProgressBar(int progress, int total) {
+        if (total == 0) return "";
         return HudBuilder.getProgressBar(100 * progress / total);
     }
 
@@ -50,9 +51,8 @@ public class HudBuilder {
      * @return The formatted progress bar
      */
     public static String getProgressBar(int percentCompleted) {
-        if (percentCompleted > 100) {
-            percentCompleted = 100;
-        }
+        // Clamp to [0, 100]
+        percentCompleted = Math.min(Math.max(percentCompleted, 0), 100);
 
         // 11 bars total
         StringBuffer progressBar = new StringBuffer();
@@ -96,6 +96,7 @@ public class HudBuilder {
      * @return The formatted progress bar
      */
     public static String formatProgressBar(int progress, int total) {
+        if (total == 0) return "";
         return HudBuilder.formatProgressBar(100 * progress / total);
     }
 
