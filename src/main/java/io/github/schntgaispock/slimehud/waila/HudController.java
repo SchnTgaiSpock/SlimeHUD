@@ -80,7 +80,7 @@ public class HudController {
                 enct == EnergyNetComponentType.GENERATOR ||
                 enct == EnergyNetComponentType.CONSUMER) &&
                 enc.getCapacity() > 0) {
-            return HudBuilder.formatEnergyStored(enc.getCharge(request.getLocation()));
+            return HudBuilder.formatEnergyStored(enc.getCharge(request.getLocation()), enc.getCapacity());
         }
         return "";
     }
@@ -88,6 +88,8 @@ public class HudController {
     @Nonnull
     @SuppressWarnings("unchecked")
     private String processMachine(@Nonnull HudRequest request) {
+        StringBuilder hudText = new StringBuilder();
+
         if (!SlimeHUD.getInstance().getConfig().getBoolean("waila.show-machine-progress")) {
             return "";
         }
@@ -97,16 +99,29 @@ public class HudController {
         MachineOperation operation = machine.getMachineProcessor().getOperation(request.getLocation());
 
         if (operation == null) {
-            return "&7| Idle";
+            hudText.append("&7| Idle");
+            if (request.getSlimefunItem() instanceof EnergyNetComponent) {
+                hudText.append(" ").append(processCapacitor(request));
+            }
+            return hudText.toString();
         }
 
         int progress = operation.getProgress();
         int total = operation.getTotalTicks();
-        return HudBuilder.formatProgressBar(progress, total);
+        
+        hudText.append(HudBuilder.formatProgressBar(progress, total));
+        
+        if (request.getSlimefunItem() instanceof AGenerator) {
+            hudText.append(" ").append(processGenerator(request));
+        }
+
+        return hudText.toString();
     }
 
     @Nonnull
     private String processGenerator(@Nonnull HudRequest request) {
+        StringBuilder hudText = new StringBuilder();
+
         if (!SlimeHUD.getInstance().getConfig().getBoolean("waila.show-generator-generation")) {
             return "";
         }
@@ -114,14 +129,22 @@ public class HudController {
         AGenerator gen = (AGenerator) request.getSlimefunItem();
         int generation = gen.getEnergyProduction();
         if (generation > 0) {
-            return HudBuilder.formatEnergyGenerated(generation);
+            hudText.append(HudBuilder.formatEnergyGenerated(generation));
         } else {
-            return "&7| Not generating";
+            hudText.append("&7| Not generating");
         }
+
+        if (gen instanceof EnergyNetComponent) {
+            hudText.append(" ").append(processCapacitor(request));
+        }
+
+        return hudText.toString();
     }
 
     @Nonnull
     private String processSolarGenerator(@Nonnull HudRequest request) {
+        StringBuilder hudText = new StringBuilder();
+
         if (!SlimeHUD.getInstance().getConfig().getBoolean("waila.show-generator-generation")) {
             return "";
         }
@@ -130,10 +153,16 @@ public class HudController {
         // Solar Generators dont use any fuel, so it's ok to call getGeneratedOutput
         int generation = gen.getGeneratedOutput(request.getLocation(), null);
         if (generation > 0) {
-            return HudBuilder.formatEnergyGenerated(generation);
+            hudText.append(HudBuilder.formatEnergyGenerated(generation));
         } else {
-            return "&7| Not generating";
+            hudText.append("&7| Not generating");
         }
+
+        if (gen instanceof EnergyNetComponent) {
+            hudText.append(" ").append(processCapacitor(request));
+        }
+
+        return hudText.toString();
     }
 
     @Nonnull

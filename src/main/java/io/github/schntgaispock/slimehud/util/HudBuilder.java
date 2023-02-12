@@ -2,6 +2,8 @@ package io.github.schntgaispock.slimehud.util;
 
 import java.text.NumberFormat;
 
+import javax.annotation.Nonnull;
+
 import lombok.experimental.UtilityClass;
 
 /**
@@ -18,8 +20,20 @@ public class HudBuilder {
      * @param energy Amount of stored energy
      * @return The formatted text
      */
+    @Nonnull
     public static String formatEnergyStored(int energy) {
         return "&7| " + HudBuilder.getAbbreviatedNumber(energy) + " J Stored";
+    }
+
+    /**
+     * Formats stored energy and total energy
+     * 
+     * @param energy Amount of stored energy
+     * @return The formatted text
+     */
+    @Nonnull
+    public static String formatEnergyStored(int energy, int totalEnergy) {
+        return "&7| " + HudBuilder.getAbbreviatedNumber(energy) + "/" + HudBuilder.getAbbreviatedNumber(totalEnergy) + " J";
     }
 
     /**
@@ -28,8 +42,9 @@ public class HudBuilder {
      * @param energy Energy generated per tick
      * @return The formatted text
      */
+    @Nonnull
     public static String formatEnergyGenerated(int energy) {
-        return "&7| Generating " + HudBuilder.getAbbreviatedNumber(energy) + " J/t";
+        return "&7| &e⚡&7 " + HudBuilder.getAbbreviatedNumber(energy) + " J/t";
     }
 
     /**
@@ -39,6 +54,7 @@ public class HudBuilder {
      * @param total    Total amount
      * @return The formatted progress bar
      */
+    @Nonnull
     public static String getProgressBar(int progress, int total) {
         if (total == 0) return "";
         return HudBuilder.getProgressBar(100 * progress / total);
@@ -50,6 +66,8 @@ public class HudBuilder {
      * @param percentCompleted An integer between 0 and 100, inclusive
      * @return The formatted progress bar
      */
+    @Nonnull
+    @SuppressWarnings("null")
     public static String getProgressBar(int percentCompleted) {
         // Clamp to [0, 100]
         percentCompleted = Math.min(Math.max(percentCompleted, 0), 100);
@@ -95,6 +113,7 @@ public class HudBuilder {
      * @param total    Total amount
      * @return The formatted progress bar
      */
+    @Nonnull
     public static String formatProgressBar(int progress, int total) {
         if (total == 0) return "";
         return HudBuilder.formatProgressBar(100 * progress / total);
@@ -107,6 +126,7 @@ public class HudBuilder {
      * @param percentCompleted An integer between 0 and 100, inclusive
      * @return The formatted progress bar
      */
+    @Nonnull
     public static String formatProgressBar(int percentCompleted) {
         return "&7| " + HudBuilder.getProgressBar(percentCompleted) + " - " + percentCompleted + "%";
     }
@@ -124,6 +144,8 @@ public class HudBuilder {
      * @param n Number to shorten
      * @return Shortened number
      */
+    @Nonnull
+    @SuppressWarnings("null")
     public static String getAbbreviatedNumber(long n) {
         String original = ""+n;
         int length = original.length();
@@ -168,6 +190,8 @@ public class HudBuilder {
      * @param n No commas?
      * @return Number with commas
      */
+    @Nonnull
+    @SuppressWarnings("null")
     public static String getCommaNumber(long n) {
         return HudBuilder.nf.format(n);
     }
