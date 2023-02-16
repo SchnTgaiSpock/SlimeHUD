@@ -210,6 +210,8 @@ public class HudController {
 
     @Nullable
     private Function<HudRequest, String> tryGetHandler(@Nonnull SlimefunItem slimefunItem) {
+        // First see if there is a custom handler from an addon (to allow overriding the
+        // default machine handler)
         for (Map.Entry<Class<?>, Function<HudRequest, String>> entry : customHandlers.entrySet()) {
             if (entry.getKey().isInstance(slimefunItem)) {
                 return entry.getValue();
@@ -225,14 +227,13 @@ public class HudController {
 
     @Nonnull
     public String processRequest(@Nonnull HudRequest request) {
-        // First see if there is a custom handler from an addon (to allow overriding the
-        // default machine handler
         Function<HudRequest, String> handler = tryGetHandler(request.getSlimefunItem());
         if (handler == null) {
             // No handler found, return empty string
             return "";
         } else {
-            return handler.apply(request);
+            String ret = handler.apply(request);
+            return ret == null ? "" : ret;
         }
     }
 

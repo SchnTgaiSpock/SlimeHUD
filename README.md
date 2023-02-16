@@ -11,7 +11,6 @@ The HUD lets you see what Slimefun item a block is without breaking or opening i
 ## Limitations
 
 - Minecraft only has 7 colors for the bossbar, compared to 16 for regular items.
-- Does not work with hex color codes (defaults to white).
 
 ## API
 

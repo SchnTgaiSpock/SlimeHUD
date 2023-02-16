@@ -148,7 +148,7 @@ public class HudBuilder {
     @SuppressWarnings("null")
     public static String getAbbreviatedNumber(long n) {
         String original = ""+n;
-        int length = original.length();
+        int length = original.length() - (n < 0 ? 1 : 0);
         String append = "";
         if (length < 4) {
             return original;
@@ -167,7 +167,7 @@ public class HudBuilder {
         }
 
         StringBuffer shortened = new StringBuffer();
-        int leadingLength = ((length-1) % 3) + 1;
+        int leadingLength = ((length-1) % 3) + (n < 0 ? 2 : 1);
         int i;
         for (i = 0; i < leadingLength; i++) {
             shortened.append(original.charAt(i));
