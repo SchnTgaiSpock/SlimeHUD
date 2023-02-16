@@ -1,5 +1,6 @@
 package io.github.schntgaispock.slimehud.waila;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -10,9 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitTask;
 
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import lombok.Getter;
@@ -23,40 +24,51 @@ import lombok.Getter;
 public class WAILAManager implements Listener {
 
     private static WAILAManager instance;
-    @Getter Map<UUID, BukkitTask> WAILAs;
+    private @Getter Map<UUID, PlayerWAILA> wailas = new HashMap<>();
 
     private WAILAManager() {
-        WAILAs = new HashMap<>();
     }
 
     public static WAILAManager getInstance() {
-        if (instance == null) return new WAILAManager();
+        if (instance == null)
+            instance = new WAILAManager();
         return instance;
     }
 
-    private void generateWAILA(Player player) {
-        WAILAs.put(player.getUniqueId(), (new PlayerWAILA(player)).runTaskTimer(
-            SlimeHUD.getInstance(),
-            0l,
-            SlimeHUD.getInstance().getConfig().getLong("waila.tick-rate")
-        ));
+    private void generateWAILA(@Nonnull Player player) {
+        PlayerWAILA waila;
+        if (!wailas.containsKey(player.getUniqueId())) {
+            waila = new PlayerWAILA(player);
+            waila.runTaskTimer(
+                    SlimeHUD.getInstance(),
+                    0l,
+                    SlimeHUD.getInstance().getConfig().getLong("waila.tick-rate"));
+            wailas.put(player.getUniqueId(), waila);
+        } else {
+            waila = wailas.get(player.getUniqueId());
+        }
+        waila.setPaused(
+                !SlimeHUD.getInstance().getPlayerData().getBoolean(player.getUniqueId().toString() + ".waila", true));
+    }
+
+    private void pauseWAILA(Player player) {
+        PlayerWAILA waila = wailas.get(player.getUniqueId());
+        if (waila != null)
+            waila.setPaused(true);
     }
 
     private void removeWAILA(Player player) {
-        BukkitTask task = getWAILAs().remove(player.getUniqueId());
-        if (task != null) {
-            task.cancel();
-        }
+        PlayerWAILA waila = wailas.remove(player.getUniqueId());
+        if (waila != null)
+            waila.cancel();
     }
 
     @EventHandler
     public void onPlayerJoin(@Nonnull PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        if (
-            // SlimeHUD.getInstance().getPlayerData().getBoolean(player.getUniqueId().toString() + ".waila", true) &&
-            !SlimeHUD.getInstance().getConfig().getList("waila.disabled-in").contains(player.getWorld()) &&
-            !SlimeHUD.getInstance().getConfig().getBoolean("waila.disabled", false)
-        ) {
+        if (!SlimeHUD.getInstance().getConfig().getBoolean("waila.disabled", false) &&
+                !SlimeHUD.getInstance().getConfig().getList("waila.disabled-in", Collections.EMPTY_LIST)
+                        .contains(player.getWorld().getName())) {
             generateWAILA(player);
         }
     }
@@ -64,6 +76,17 @@ public class WAILAManager implements Listener {
     @EventHandler
     public void onPlayerQuit(@Nonnull PlayerQuitEvent e) {
         removeWAILA(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerChangeWorld(@Nonnull PlayerChangedWorldEvent e) {
+        Player player = e.getPlayer();
+        if (SlimeHUD.getInstance().getConfig().getList("waila.disabled-in", Collections.EMPTY_LIST)
+                .contains(player.getWorld().getName())) {
+            pauseWAILA(player);
+        } else {
+            generateWAILA(player);
+        }
     }
 
     public static void setup() {
