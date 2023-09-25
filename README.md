@@ -8,6 +8,11 @@ The HUD lets you see what Slimefun item a block is without breaking or opening i
 
 <https://user-images.githubusercontent.com/101147426/182007545-474a6596-b4e2-4a92-bdab-c18ed2286a94.mp4>
 
+## PlaceholderAPI
+
+- `%slimehud_toggle%`  
+Returns the current player's toggle state. Possible values are `true` or `false`.
+
 ## Limitations
 
 - Minecraft only has 7 colors for the bossbar, compared to 16 for regular items.

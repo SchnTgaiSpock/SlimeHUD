@@ -15,6 +15,9 @@ api-version: 1.14
 depend:
 - Slimefun
 
+softdepend:
+- PlaceholderAPI
+
 commands:
   slimehud:
     description: /slimehud
