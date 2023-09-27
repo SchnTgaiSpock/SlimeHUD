@@ -2,6 +2,8 @@ options:
 
   auto-update: true
 
+  # Use PlaceholderAPI to get the player's toggle status
+  placeholder-api-support: true
 
 waila:
 
@@ -43,6 +45,3 @@ waila:
 
   # Rate at which WAILA updates, in *game* ticks
   tick-rate: 10
-
-  # Use PlaceholderAPI to get the player's toggle status
-  placeholder-api-support: true

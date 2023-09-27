@@ -3,22 +3,23 @@ package io.github.schntgaispock.slimehud.placeholder;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PlaceholderHook extends PlaceholderExpansion {
     @Override
-    public @NotNull String getIdentifier() {
+    public @Nonnull String getIdentifier() {
         return "slimehud";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @Nonnull String getAuthor() {
         return "TheLittle_Yang";
     }
 
     @Override
-    public @NotNull String getVersion() {
+    public @Nonnull String getVersion() {
         return "1.0.0";
     }
 
@@ -28,9 +29,9 @@ public class PlaceholderHook extends PlaceholderExpansion {
     }
 
     @Override
-    public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
+    public @Nullable String onPlaceholderRequest(Player player, @Nonnull String params) {
         if (params.equalsIgnoreCase("toggle")) {
-            return String.valueOf(SlimeHUD.getInstance().getPlayerData().getBoolean(player.getUniqueId() + ".waila", true));
+            return SlimeHUD.getInstance().getPlayerData().getString(player.getUniqueId() + ".waila", "true");
         } else {
             return null;
         }
