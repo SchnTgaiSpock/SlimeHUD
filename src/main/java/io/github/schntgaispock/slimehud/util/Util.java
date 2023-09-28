@@ -33,7 +33,7 @@ public class Util {
         barColorRGBMap.put(new RGB(0xb9, 0x00, 0x90), BarColor.PINK);
         barColorRGBMap.put(new RGB(0x61, 0x00, 0xb9), BarColor.PURPLE);
         barColorRGBMap.put(new RGB(0xb9, 0x2a, 0x00), BarColor.RED);
-        barColorRGBMap.put(new RGB(0x00, 0x00, 0x00), BarColor.WHITE);
+        barColorRGBMap.put(new RGB(0xff, 0xff, 0xff), BarColor.WHITE);
         barColorRGBMap.put(new RGB(0xb9, 0xb9, 0x00), BarColor.YELLOW);
     }
     
