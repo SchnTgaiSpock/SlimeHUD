@@ -69,7 +69,7 @@ public class SlimeHUDCommandExecutor implements CommandExecutor {
             "",
             "§a§lSlimeHUD §7- §2Version " + SlimeHUD.getInstance().getPluginVersion(),
             "§7------",
-            "§a§lWiki §7- §2https://github.com/SchnTgaiSpock/SlimeHUD/wiki",
+            "§a§lWiki §7- §2https://schn.pages.dev/slimehud",
             "§a§lIssues §7- §2https://github.com/SchnTgaiSpock/SlimeHUD/issues",
             ""
         );

@@ -2,7 +2,7 @@
 
 Adds a WAILA (What Am I Looking At) HUD for Slimefun items. Can be set to display in the bossbar or above the hotbar in `config.yml`. Additional energy/cargo information can also be toggled on or off in `config.yml`. Individual players can also toggle their WAILA HUD with `/slimehud toggle`.
 
-The HUD lets you see what Slimefun item a block is without breaking or opening its menu. It also displays additional information depending on the block, such as network size, cargo channel, and energy generation. See the [wiki](https://github.com/SchnTgaiSpock/SlimeHUD/wiki) for more details.
+The HUD lets you see what Slimefun item a block is without breaking or opening its menu. It also displays additional information depending on the block, such as network size, cargo channel, and energy generation. See the [wiki](https://schn.pages.dev/slimehud) for more details.
 
 ## Preview
 
@@ -14,7 +14,7 @@ The HUD lets you see what Slimefun item a block is without breaking or opening i
 
 ## API
 
-API documentation can be found [here](https://github.com/SchnTgaiSpock/SlimeHUD/wiki/API-Usage) on the wiki.
+API documentation can be found [here](https://schn.pages.dev/slimehud/api-usage) on the wiki.
 
 ## Requirements
 
