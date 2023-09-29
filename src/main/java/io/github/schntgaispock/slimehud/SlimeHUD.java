@@ -3,6 +3,7 @@ package io.github.schntgaispock.slimehud;
 
 import javax.annotation.Nonnull;
 
+import io.github.schntgaispock.slimehud.placeholder.PlaceholderManager;
 import io.github.schntgaispock.slimehud.waila.HudController;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -48,6 +49,7 @@ public class SlimeHUD extends AbstractAddon {
 
         WAILAManager.setup();
         CommandManager.setup();
+        PlaceholderManager.setup();
         hudController = new HudController();
     }
 

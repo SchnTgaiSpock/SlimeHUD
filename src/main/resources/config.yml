@@ -2,6 +2,8 @@ options:
 
   auto-update: true
 
+  # Use PlaceholderAPI to get the player's toggle status
+  placeholder-api-support: true
 
 waila:
 
