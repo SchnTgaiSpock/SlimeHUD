@@ -5,6 +5,9 @@ options:
   # Use PlaceholderAPI to get the player's toggle status
   placeholder-api-support: true
 
+  # Use SlimefunTranslation to display the translated name of items
+  slimefun-translation-support: true
+
 waila:
 
   # If set to true, will disable waila for all players,

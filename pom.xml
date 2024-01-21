@@ -146,5 +146,12 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>net.guizhanss</groupId>
+            <artifactId>SlimefunTranslation</artifactId>
+            <version>ce9fb1c6f5</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
