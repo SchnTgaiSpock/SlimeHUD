@@ -14,6 +14,7 @@ import io.github.mooy1.infinitylib.core.AbstractAddon;
 import io.github.mooy1.infinitylib.core.AddonConfig;
 import io.github.schntgaispock.slimehud.command.CommandManager;
 import io.github.schntgaispock.slimehud.waila.WAILAManager;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.BlobBuildUpdater;
 import lombok.Getter;
 
 public class SlimeHUD extends AbstractAddon {
@@ -27,6 +28,7 @@ public class SlimeHUD extends AbstractAddon {
         super("SchnTgaiSpock", "SlimeHUD", "master", "options.auto-update");
     }
 
+
     @Override
     public void enable() {
         instance = this;
@@ -35,7 +37,16 @@ public class SlimeHUD extends AbstractAddon {
         getLogger().info("#    SlimeHUD by SchnTgaiSpock    #");
         getLogger().info("#=================================#");
 
-        Metrics metrics = new Metrics(this, 15883);
+        if (getConfig().getBoolean("options.auto-update")) {
+            if (getDescription().getVersion().startsWith("Dev - ")) {
+                new BlobBuildUpdater(this, getFile(), "SlimeHUD", "Dev").start();
+            } else {
+                getLogger().info("This is an unofficial build of SlimeHUD, so auto updates are disabled!");
+                getLogger().info("You can download the official build here: https://blob.build/project/Gastronomicon");
+            }
+        }
+
+        final Metrics metrics = new Metrics(this, 15883);
         metrics.addCustomChart(
             new SimplePie("disabled", () -> {
                 return "" + getConfig().getBoolean("waila.disabled");

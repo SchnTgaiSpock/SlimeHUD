@@ -29,9 +29,15 @@ public class TranslationManager {
         if (!translationEnabled) {
             return sfItem.getItemName();
         }
-        return SlimefunTranslation.getTranslationService().getTranslatedItemName(
-                SlimefunTranslation.getUserService().getUser(p),
-                sfItem
-        );
+        
+        try {
+            return SlimefunTranslation.getTranslationService().getTranslatedItemName(
+                    SlimefunTranslation.getUserService().getUser(p),
+                    sfItem);
+        } catch (NoClassDefFoundError e) {
+            SlimeHUD.getInstance().getLogger().info("Could not get item translation! Please update SlimefunTranslation");
+            translationEnabled = false;
+            return sfItem.getItemName();
+        }
     }
 }
