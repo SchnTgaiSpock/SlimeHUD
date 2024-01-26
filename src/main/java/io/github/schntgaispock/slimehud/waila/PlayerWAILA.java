@@ -64,7 +64,7 @@ public class PlayerWAILA extends BukkitRunnable {
             return "";
 
         HudRequest request = new HudRequest(item, target, player);
-        StringBuilder text = new StringBuilder(item.getItemName())
+        StringBuilder text = new StringBuilder(SlimeHUD.getTranslationManager().getItemName(player, item))
                 .append(" ")
                 .append(ChatColor.translateAlternateColorCodes('&',
                         SlimeHUD.getHudController().processRequest(request)));

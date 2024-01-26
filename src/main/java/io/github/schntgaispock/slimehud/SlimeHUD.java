@@ -4,6 +4,7 @@ package io.github.schntgaispock.slimehud;
 import javax.annotation.Nonnull;
 
 import io.github.schntgaispock.slimehud.placeholder.PlaceholderManager;
+import io.github.schntgaispock.slimehud.translation.TranslationManager;
 import io.github.schntgaispock.slimehud.waila.HudController;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -20,6 +21,7 @@ public class SlimeHUD extends AbstractAddon {
     @Getter AddonConfig playerData;
     static @Getter SlimeHUD instance;
     private HudController hudController;
+    private TranslationManager translationManager;
 
     public SlimeHUD() {
         super("SchnTgaiSpock", "SlimeHUD", "master", "options.auto-update");
@@ -51,6 +53,7 @@ public class SlimeHUD extends AbstractAddon {
         CommandManager.setup();
         PlaceholderManager.setup();
         hudController = new HudController();
+        translationManager = new TranslationManager();
     }
 
     @Override
@@ -61,6 +64,10 @@ public class SlimeHUD extends AbstractAddon {
 
     public static HudController getHudController() {
         return instance.hudController;
+    }
+
+    public static TranslationManager getTranslationManager() {
+        return instance.translationManager;
     }
 
     public static NamespacedKey newNamespacedKey(@Nonnull String name) {
