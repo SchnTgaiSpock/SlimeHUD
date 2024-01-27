@@ -42,7 +42,7 @@ public class SlimeHUD extends AbstractAddon {
                 new BlobBuildUpdater(this, getFile(), "SlimeHUD", "Dev").start();
             } else {
                 getLogger().info("This is an unofficial build of SlimeHUD, so auto updates are disabled!");
-                getLogger().info("You can download the official build here: https://blob.build/project/Gastronomicon");
+                getLogger().info("You can download the official build here: https://blob.build/project/SlimeHUD");
             }
         }
 
