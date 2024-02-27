@@ -150,7 +150,7 @@
         <dependency>
             <groupId>net.guizhanss</groupId>
             <artifactId>SlimefunTranslation</artifactId>
-            <version>ce9fb1c6f5</version>
+            <version>81b930d5ad</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
