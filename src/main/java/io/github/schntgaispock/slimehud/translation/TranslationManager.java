@@ -2,7 +2,7 @@ package io.github.schntgaispock.slimehud.translation;
 
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import net.guizhanss.slimefuntranslation.SlimefunTranslation;
+import net.guizhanss.slimefuntranslation.api.SlimefunTranslationAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -31,9 +31,7 @@ public class TranslationManager {
         }
         
         try {
-            return SlimefunTranslation.getTranslationService().getTranslatedItemName(
-                    SlimefunTranslation.getUserService().getUser(p),
-                    sfItem);
+            return SlimefunTranslationAPI.getItemName(SlimefunTranslationAPI.getUser(p), sfItem);
         } catch (NoClassDefFoundError e) {
             SlimeHUD.getInstance().getLogger().info("Could not get item translation! Please update SlimefunTranslation");
             translationEnabled = false;
