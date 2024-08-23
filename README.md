@@ -10,8 +10,10 @@ The HUD lets you see what Slimefun item a block is without breaking or opening i
 
 ## PlaceholderAPI
 
-- `%slimehud_toggle%`  
-Returns the current player's toggle state. Possible values are `true` or `false`.
+- `%slimehud_toggle%` Returns the current player's toggle state. Possible values are `true` or `false`.
+- `%slimehud_hud%` Standard hud, including block display name and additional information.
+- `%slimehud_hud_block%` Only block display names.
+- `%slimehud_hud_block_info%` Only additional information.
 
 ## Limitations
 

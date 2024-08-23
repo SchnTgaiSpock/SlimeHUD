@@ -22,7 +22,7 @@ public class HudBuilder {
      */
     @Nonnull
     public static String formatEnergyStored(int energy) {
-        return "&7| " + HudBuilder.getAbbreviatedNumber(energy) + " J Stored";
+        return HudBuilder.getAbbreviatedNumber(energy) + " J Stored";
     }
 
     /**
@@ -33,7 +33,7 @@ public class HudBuilder {
      */
     @Nonnull
     public static String formatEnergyStored(int energy, int totalEnergy) {
-        return "&7| " + HudBuilder.getAbbreviatedNumber(energy) + "/" + HudBuilder.getAbbreviatedNumber(totalEnergy) + " J";
+        return HudBuilder.getAbbreviatedNumber(energy) + "/" + HudBuilder.getAbbreviatedNumber(totalEnergy) + " J";
     }
 
     /**
@@ -44,7 +44,7 @@ public class HudBuilder {
      */
     @Nonnull
     public static String formatEnergyGenerated(int energy) {
-        return "&7| &e⚡&7 " + HudBuilder.getAbbreviatedNumber(energy) + " J/t";
+        return "&e⚡&7 " + HudBuilder.getAbbreviatedNumber(energy) + " J/t";
     }
 
     /**
@@ -128,7 +128,7 @@ public class HudBuilder {
      */
     @Nonnull
     public static String formatProgressBar(int percentCompleted) {
-        return "&7| " + HudBuilder.getProgressBar(percentCompleted) + " - " + percentCompleted + "%";
+        return HudBuilder.getProgressBar(percentCompleted) + " - " + percentCompleted + "%";
     }
 
     /**
