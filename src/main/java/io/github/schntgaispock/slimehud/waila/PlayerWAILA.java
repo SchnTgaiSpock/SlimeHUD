@@ -21,13 +21,24 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class PlayerWAILA extends BukkitRunnable {
 
-    final private @Nonnull @Getter Player player;
+    final private @Nonnull
+    @Getter Player player;
     final private @Getter BossBar WAILABar; // Bossbar
     final private String WAILALocation;
     final private boolean useAutoBossBarColor;
     final private boolean keepTextColors;
-
+    /**
+     * Returns an empty string if not a Slimefun item. Otherwise returns the
+     * formatted item name
+     */
+    @Getter
+    private String facing = "";
+    @Getter
+    private String facingBlock = "";
+    @Getter
+    private String facingBlockInfo = "";
     private String previousFacing = "";
+
     private @Getter boolean paused;
 
     public PlayerWAILA(@Nonnull Player player) {
@@ -45,38 +56,12 @@ public class PlayerWAILA extends BukkitRunnable {
     }
 
     /**
-     * Returns an empty string if not a Slimefun item. Otherwise returns the
-     * formatted item name
-     * 
-     * @return Formatted item name or empty string
-     */
-    public String getFacing() {
-        Block targetBlock = player.getTargetBlockExact(5);
-        if (targetBlock == null)
-            return "";
-
-        Location target = targetBlock.getLocation();
-        if (target == null)
-            return "";
-
-        SlimefunItem item = BlockStorage.check(targetBlock);
-        if (item == null)
-            return "";
-
-        HudRequest request = new HudRequest(item, target, player);
-        StringBuilder text = new StringBuilder(SlimeHUD.getTranslationManager().getItemName(player, item))
-                .append(" ")
-                .append(ChatColor.translateAlternateColorCodes('&',
-                        SlimeHUD.getHudController().processRequest(request)));
-
-        return text.toString();
-    }
-
-    /**
      * Called every <code>waila.tick-rate</code> ticks
      */
     @Override
     public void run() {
+        updateFacing();
+
         if (isPaused()) {
             return;
         }
@@ -111,6 +96,32 @@ public class PlayerWAILA extends BukkitRunnable {
                 break;
         }
 
+    }
+
+    private void updateFacing() {
+        Block targetBlock = player.getTargetBlockExact(5);
+        if (targetBlock == null) {
+            clearFacing();
+            return;
+        }
+
+        SlimefunItem item = BlockStorage.check(targetBlock);
+        if (item == null) {
+            clearFacing();
+            return;
+        }
+
+        Location target = targetBlock.getLocation();
+        HudRequest request = new HudRequest(item, target, player);
+        facingBlock = SlimeHUD.getTranslationManager().getItemName(player, item);
+        facingBlockInfo = SlimeHUD.getHudController().processRequest(request);
+        facing = ChatColor.translateAlternateColorCodes('&', facingBlock + (facingBlockInfo.isEmpty() ? "" : " &7| " + facingBlockInfo));
+    }
+
+    private void clearFacing() {
+        facingBlock = "";
+        facingBlockInfo = "";
+        facing = "";
     }
 
     public void setPaused(boolean paused) {
