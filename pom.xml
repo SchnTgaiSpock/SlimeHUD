@@ -13,6 +13,11 @@
 
     <repositories>
         <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <repository>
             <id>paper-repo</id>
             <url>https://repo.destroystokyo.com/repository/maven-public/</url>
         </repository>
@@ -25,11 +30,6 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
 
