@@ -233,7 +233,13 @@ public class HudController {
             return "";
         } else {
             String ret = handler.apply(request);
-            return ret == null ? "" : ret;
+            if (ret == null) return "";
+            if (ret.startsWith("&7| ")) {
+                ret = ret.replaceFirst("&7\\| ", "&7");
+            } else if (ret.startsWith("§7| ")) {
+                ret = ret.replaceFirst("§7\\| ", "&7");
+            }
+            return ret;
         }
     }
 
